@@ -1,0 +1,28 @@
+﻿@page "{id}/{handler?}"
+@model RecipeApplication.Pages.Recipes.ViewModel
+@{
+    ViewData["Title"] = Model.Recipe.Name;
+}
+
+<h2>@Model.Recipe.Name</h2>
+<form asp-page-handler="Delete" asp-route-id="@Model.Recipe.Id">
+    <p>        
+        @*
+        Использется атрибут "disabled" для отключения активности кнопки
+        Если в модели  свойство "CanEditRecipe" принимает значение "true"(авторизация прошла успешно)
+        это значение инвертируется и атрибут "disabled" принимает занчение "false", кнопка становится активной.
+        В обратном случае атрибут "disabled" принимает занчение "true" и кнопка отключается
+        *@
+        <a asp-Page="Edit" asp-route-id="@Model.Recipe.Id" class="btn btn-primary" disabled="@Model.CanEditRecipe">Edit</a>
+        <button class="btn btn-danger" disabled="@Model.CanEditRecipe">Delete</button>        
+    </p>
+</form>
+<p>@Model.Recipe.Method</p>
+
+<dl>
+    @foreach (var item in Model.Recipe.Ingredients)
+    {
+        <dt>@item.Name</dt>
+        <dd>@item.Quantity</dd>
+    }
+</dl>
